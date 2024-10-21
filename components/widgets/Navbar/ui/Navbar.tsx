@@ -1,5 +1,4 @@
 "use client"
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
@@ -8,18 +7,23 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
 import {useRouter} from 'next/navigation'
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import AlbumIcon from '@mui/icons-material/Album';
+import MenuIcon from '@mui/icons-material/Menu'
+import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
+import { useState } from 'react';
 
 const menuItems = [
-  {text: 'Главная', href: "/"},
-  {text: 'Список треков', href: "/tracks"},
-  {text: 'Список альбомов', href: "/albums"}
+  {text: 'Главная', href: "/", icon: <MusicNoteIcon />},
+  {text: 'Список треков', href: "/tracks", icon: <LibraryMusicIcon />},
+  {text: 'Список альбомов', href: "/albums", icon: <AlbumIcon />},
 ]
 
 
 export function Navbar() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -34,7 +38,7 @@ export function Navbar() {
           <ListItem key={item.text} disablePadding onClick={()=> router.push(item.href)}>
             <ListItemButton>
               <ListItemIcon>
-              <MailIcon />
+                {item.icon}
               </ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
@@ -47,7 +51,24 @@ export function Navbar() {
 
   return (
     <div>
-      <Button onClick={toggleDrawer(true)}>Open drawer</Button>
+      <AppBar position="static" style={{backgroundColor: 'darkgreen'}}>
+        <Toolbar>
+          <IconButton
+            onClick={toggleDrawer(true)}
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Listen
+          </Typography>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}
       </Drawer>
